@@ -1,0 +1,57 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+input {
+    max-width: 75px;
+    margin:0 10px;
+}
+
+.wrapper {
+    width: 802px;
+    margin: 0 auto;
+}
+
+.canvas {
+    max-width: 100%;
+    border:1px solid #000;
+    margin-bottom: 20px;
+}
+
+.info {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.info__item {
+    padding: 5px 10px;
+    border:1px solid #000;
+}
+
+.controls {
+    display: flex;
+}
+
+button {
+    color:cornflowerblue;
+    display: inline-block;
+    line-height: 30px;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    font-weight: 700;
+    border:2px solid #000;
+
+}
+
+.button--dec {
+    border-radius: 5px 0 0 5px;
+    border-right: 1px solid #000;
+}
+
+.button--inc {
+    border-radius: 0 5px 5px 0;
+    border-left: 1px solid #000;
+}
