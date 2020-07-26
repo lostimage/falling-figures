@@ -23,7 +23,6 @@ export const removeGraphic = event => {
 
 /// Change the tint of all graphics with same type
 export const changeColor = event => {
-    console.log(event.target);
     const target = event.target;
     const color = target.color;
     const type = target.type;
