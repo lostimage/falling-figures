@@ -4,7 +4,7 @@
   "description": "pixi test task",
   "main": "./src/index.html",
   "scripts": {
-    "dev": "webpack-dev-server --content-base src --hot --inline && cp src/index.html dist/index.html"
+    "dev": "webpack-dev-server --content-base src --hot --inline && cp src/index.html dist/index.html",
   },
   "author": "Alex S",
   "license": "ISC",

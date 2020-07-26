@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import Figure from './Figure/Figure';
-import {randomColor, randomNumberForRange, onDecrementValue, onIncrementValue} from './utils';
+import {randomColor, randomNumberForRange, onDecrementValue, onIncrementValue} from './functions';
 
 document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.querySelector('.canvas');
@@ -31,17 +31,23 @@ document.addEventListener('DOMContentLoaded', function () {
     container.beginFill(0xffffff);
     container.drawRect(0, 0, app.renderer.width, app.renderer.height);
     app.stage.addChild(container);
+    const figures = ['triangle', 'rectangle', 'circle', 'ellipse', 'fiveSides', 'sixSides', 'randomShape'];
+    const randomFigure = () => figures[randomNumberForRange(0, 7)];
     // Add new figure on mouse click
     container.on('pointerup', event => {
         gravity = parseInt(gravityChanger.value);
         const {x, y} = getMousePosition();
-        const newFigure = new Figure(parent, randomNumberForRange(0, 6), x, y, randomColor(), gravity * 0.5);
+        const newFigure = new Figure(parent, randomFigure(), x, y, randomColor(), gravity * 0.5);
         app.stage.addChild(newFigure);
     });
+
 /// Falling proccess
-    const falling = (speed) => {
-        const newFigure = new Figure(parent, randomNumberForRange(0, 6), randomNumberForRange(0, 800), 0, randomColor(), speed);
+    let count = 0;
+    const falling = (gravity) => {
+        count = 1;
+        const newFigure = new Figure(parent, randomFigure(), randomNumberForRange(0, 800), 0, randomColor(), gravity * 0.5);
         app.stage.addChild(newFigure);
+        app.renderer.render(newFigure);
         app.stage.children.map(figure => {
             if (figure.y > 800) {
                 figure.parent.removeChild(figure);
@@ -62,10 +68,10 @@ document.addEventListener('DOMContentLoaded', function () {
 //// Changes of gravity and amount of figures
     let gravity = parseInt(gravityChanger.value);
     let amount = parseInt(amountChanger.value);
-    decrementGravity.addEventListener('click', () => onDecrementValue(gravityChanger), false);
-    incrementGravity.addEventListener('click', () => onIncrementValue(gravityChanger), false);
-    decrementAmount.addEventListener('click', () => onDecrementValue(amountChanger), false);
-    incrementAmount.addEventListener('click', () => onIncrementValue(amountChanger), false);
+    decrementGravity.addEventListener('click', () => onDecrementValue(gravityChanger));
+    incrementGravity.addEventListener('click', () => onIncrementValue(gravityChanger));
+    decrementAmount.addEventListener('click', () => onDecrementValue(amountChanger));
+    incrementAmount.addEventListener('click', () => onIncrementValue(amountChanger));
     gravityChanger.addEventListener('change', function () {
         clearInterval(interval);
         amount = parseInt(amountChanger.value);
@@ -74,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     amountChanger.addEventListener('change', function () {
         clearInterval(interval);
-        gravity = parseInt(gravityChanger.value);
+        gravity = parseInt(gravity);
         gravity = isNaN(gravity) ? 0 : gravity;
         interval = setInterval(falling, 1 / this.value * 1000, gravity * 0.5);
     });

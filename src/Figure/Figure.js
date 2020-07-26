@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import {removeGraphic, changeColor} from '../utils'
+import {removeGraphic, changeColor} from '../functions'
 
 let ticker = PIXI.Ticker.shared;
 
@@ -7,13 +7,13 @@ class Figure extends PIXI.Graphics {
     constructor(parent, type, xPos, yPos, color, gravity) {
         super();
         this.parent = parent;
-        this.gravity = gravity;
         this.interactive = true;
         this.buttonMode = true;
         this.color = color;
-        switch (type) {
-            case 0:
-                this.type = 'triangle';
+        this.type = type;
+        console.log(this);
+        switch (this.type) {
+            case 'triangle':
                 this.area = 625;
                 this.x = xPos;
                 this.y = yPos - 50;
@@ -25,8 +25,7 @@ class Figure extends PIXI.Graphics {
                 this.lineTo(25, 0);
                 this.endFill();
                 break;
-            case 1:
-                this.type = 'rectangle';
+            case 'rectangle':
                 this.area = 1600;
                 this.x = xPos;
                 this.y = yPos - 40;
@@ -35,8 +34,7 @@ class Figure extends PIXI.Graphics {
                 this.drawRect(0, 0, 40, 40, color);
                 this.endFill();
                 break;
-            case 2:
-                this.type = 'circle';
+            case 'circle':
                 this.area = 1963;
                 this.x = xPos;
                 this.y = yPos - 25;
@@ -45,8 +43,7 @@ class Figure extends PIXI.Graphics {
                 this.drawCircle(0, 0, 25);
                 this.endFill();
                 break;
-            case 3:
-                this.type = 'ellipse';
+            case 'ellipse':
                 this.area = 3534;
                 this.x = xPos;
                 this.y = yPos - 25;
@@ -55,8 +52,7 @@ class Figure extends PIXI.Graphics {
                 this.drawEllipse(0, 0, 45, 25);
                 this.endFill();
                 break;
-            case 4:
-                this.type = 'fiveSides';
+            case 'fiveSides':
                 this.x = xPos;
                 this.y = yPos - 60;
                 this.area = 3075;
@@ -66,8 +62,7 @@ class Figure extends PIXI.Graphics {
                 this.drawPolygon(fivePath);
                 this.endFill();
                 break;
-            case 5:
-                this.type = 'sixSides';
+            case 'sixSides':
                 this.area = 3455;
                 this.x = xPos;
                 this.y = yPos - 60;
@@ -77,11 +72,20 @@ class Figure extends PIXI.Graphics {
                 this.drawPolygon(sixPath);
                 this.endFill();
                 break;
+            case 'randomShape':
+                this.area = 2534;
+                this.x = xPos;
+                this.y = yPos - 25;
+                this.beginFill(color, 1);
+                this.lineStyle(0, color, 1);
+                this.drawStar(0, 0, 6, 35);
+                this.endFill();
+                break;
         }
         this.on('pointerup', removeGraphic);
         this.on('pointerdown', changeColor);
         ticker.add(() => {
-            this.y += this.gravity;
+            this.y += gravity;
         });
     }
 }
